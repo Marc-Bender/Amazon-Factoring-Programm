@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="PDF-Merkmale extrahieren" Height="127.355" Width="262.288">
-    <Grid Margin="0" HorizontalAlignment="Left" Width="252">
+        Title="PDF-Merkmale extrahieren" Height="127.355" Width="523.288">
+    <Grid Margin="0" HorizontalAlignment="Left" Width="513">
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="80">
             <MenuItem x:Name="fileMenue" Header="Datei" Height="20" Width="40" HorizontalAlignment="Left">
-                <MenuItem x:Name="chooseFilesMenuItem" Header="Datei(-en)uswählen" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
+                <MenuItem x:Name="chooseFilesMenuItem" Header="Datei(-en) auswählen" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
+                <MenuItem x:Name="chooseOutputFile" Header="Ausgabedatei wählen" HorizontalAlignment="Left" Height="20" Width="266"/>
+                <MenuItem x:Name="go" Header="Los" HorizontalAlignment="Left" Height="20" Width="266"/>
                 <MenuItem x:Name="endProgramMenuItem" Header="Beenden" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
-
             </MenuItem>
             <MenuItem x:Name="aboutMenue" Header="Über"  Height="20" Width="40" HorizontalAlignment="Right"/>
         </Menu>
-        <RichTextBox x:Name="statusMessages" HorizontalAlignment="Left" Height="62" Margin="0,25,0,0" VerticalAlignment="Top" Width="242" IsReadOnly="True">
+        <RichTextBox x:Name="statusMessages" HorizontalAlignment="Left" Height="62" Margin="0,25,0,0" VerticalAlignment="Top" Width="503" IsReadOnly="True">
             <FlowDocument>
                 <Paragraph>
                     <Run x:Name="Content" Text="Statusmeldungen:" AllowDrop="False" IsEnabled="False"/>
