@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="PDF-Merkmale extrahieren" Height="123.941" Width="262.288">
-    <Grid Margin="0" HorizontalAlignment="Left">
-        <Button x:Name="goButton" Content="Los" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="3,25,0,0" AutomationProperties.Name="goButton"/>
+        Title="PDF-Merkmale extrahieren" Height="127.355" Width="262.288">
+    <Grid Margin="0" HorizontalAlignment="Left" Width="252">
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="80">
             <MenuItem x:Name="fileMenue" Header="Datei" Height="20" Width="40" HorizontalAlignment="Left">
                 <MenuItem x:Name="chooseFilesMenuItem" Header="Datei(-en)uswählen" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
@@ -16,6 +15,12 @@
             </MenuItem>
             <MenuItem x:Name="aboutMenue" Header="Über"  Height="20" Width="40" HorizontalAlignment="Right"/>
         </Menu>
-
+        <RichTextBox x:Name="statusMessages" HorizontalAlignment="Left" Height="62" Margin="0,25,0,0" VerticalAlignment="Top" Width="242" IsReadOnly="True">
+            <FlowDocument>
+                <Paragraph>
+                    <Run x:Name="Content" Text="Statusmeldungen:" AllowDrop="False" IsEnabled="False"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>
