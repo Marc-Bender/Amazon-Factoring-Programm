@@ -11,12 +11,13 @@ Class MainWindow
         MsgBox("PDF-Merkmale extrahieren" + Chr(10) + "entwickelt: Marc Bender, 2019", MsgBoxStyle.Information, "Über")
     End Sub
     Sub chooseOutputFile_onClick() Handles chooseOutputFile.Click
-        Dim chooseOutputFileDialog = New OpenFileDialog
+        Dim chooseOutputFileDialog = New SaveFileDialog
         chooseOutputFileDialog.Title = "Ausgabedatei wählen"
-        chooseOutputFileDialog.Multiselect = False
         chooseOutputFileDialog.ShowDialog()
-        outputFileName = chooseOutputFileDialog.FileName
-        statusMessages.AppendText(Chr(13) + "Ausgabe nach: " + outputFileName)
+        If Not IsNothing(chooseOutputFileDialog.FileName) And chooseOutputFileDialog.FileName <> "" Then
+            outputFileName = chooseOutputFileDialog.FileName
+            statusMessages.AppendText(Chr(13) + "Ausgabe nach: " + outputFileName)
+        End If
     End Sub
     Sub chooseFileMenuItem_onClick() Handles chooseFilesMenuItem.Click
         MsgBox("Achtung!" + Chr(10) + Chr(13) + "Nur PDF Dateien wählen!" + Chr(10) + Chr(13) + "Nur Dateien in Ordnern ohne Leerzeichen!" + Chr(13) + Chr(10) + "Sonst stürzt das Programm ab!", MsgBoxStyle.Exclamation, "Bitte beachten!")
@@ -30,17 +31,21 @@ Class MainWindow
         End If
     End Sub
     Sub go_onClick() Handles go.Click
-        If filenamesChoosen.Length > 0 And Not IsNothing(outputFileName) Then
+        If Not IsNothing(outputFileName) And Not IsNothing(filenamesChoosen) Then
             progress.IsEnabled = True
             progress.Maximum = filenamesChoosen.Length
             progress.Minimum = 0
+            progress.Value = 0
             progress.SmallChange = 1
+            If System.IO.File.Exists(outputFileName) = False Then
+                File.Create(outputFileName).Dispose()
+            End If
             findCharacteristicsInFile(filenamesChoosen, filenamesChoosen.Length)
         Else
             MsgBox("Keine Dateien gewählt oder keine Ausgabedatei festgelegt!", MsgBoxStyle.Critical, "Fehler")
         End If
-
     End Sub
+
     Private Sub findCharacteristicsInFile(filenamesChoosen As String(), numOfFilesSelected As Integer)
         Dim amazonOrdernumberWasZeroOnceOrMoreOften As Boolean
         For i = 0 To numOfFilesSelected - 1
@@ -78,7 +83,7 @@ Class MainWindow
                 End If
             Next
             If i = 0 Then
-                My.Computer.FileSystem.WriteAllText(outputFileName, "lfd. interne Nr." + ";" + "Rechnungsnummer" + ";" + "Amazon-Order-Nummer" + vbCrLf, True)
+                My.Computer.FileSystem.WriteAllText(outputFileName, "lfd. interne Nr." + ";" + "Rechnungsnummer" + ";" + "Amazon-Order-Nummer" + vbCrLf, False)
             End If
 
             If IsNothing(invoicenumber) Then
@@ -94,7 +99,7 @@ Class MainWindow
             progress.Value = i
         Next
         statusMessages.AppendText(Chr(13) + "Fertig mit der Verarbeitung von " + numOfFilesSelected.ToString + " Dateien")
-        progress.Value = 0
+        progress.Value = progress.Maximum
         progress.IsEnabled = False
     End Sub
 End Class
