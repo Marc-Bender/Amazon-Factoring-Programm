@@ -19,6 +19,7 @@ Class MainWindow
         statusMessages.AppendText(Chr(13) + "Ausgabe nach: " + outputFileName)
     End Sub
     Sub chooseFileMenuItem_onClick() Handles chooseFilesMenuItem.Click
+        MsgBox("Achtung!" + Chr(10) + Chr(13) + "Nur PDF Dateien wählen!" + Chr(10) + Chr(13) + "Nur Dateien in Ordnern ohne Leerzeichen!" + Chr(13) + Chr(10) + "Sonst stürzt das Programm ab!", MsgBoxStyle.Exclamation, "Bitte beachten!")
         Dim chooseFilesDialog = New OpenFileDialog
         chooseFilesDialog.Title = "Datei(-en) wählen"
         chooseFilesDialog.Multiselect = True
@@ -29,7 +30,16 @@ Class MainWindow
         End If
     End Sub
     Sub go_onClick() Handles go.Click
-        findCharacteristicsInFile(filenamesChoosen, filenamesChoosen.Length)
+        If filenamesChoosen.Length > 0 And Not IsNothing(outputFileName) Then
+            progress.IsEnabled = True
+            progress.Maximum = filenamesChoosen.Length
+            progress.Minimum = 0
+            progress.SmallChange = 1
+            findCharacteristicsInFile(filenamesChoosen, filenamesChoosen.Length)
+        Else
+            MsgBox("Keine Dateien gewählt oder keine Ausgabedatei festgelegt!", MsgBoxStyle.Critical, "Fehler")
+        End If
+
     End Sub
     Private Sub findCharacteristicsInFile(filenamesChoosen As String(), numOfFilesSelected As Integer)
         Dim amazonOrdernumberWasZeroOnceOrMoreOften As Boolean
@@ -44,16 +54,20 @@ Class MainWindow
             Dim myfile = File.OpenRead(textFilename)
             Dim invoicenumber = ""
             Dim amazonordernumber = ""
-            Dim myline As String
+            Dim myline = ""
             For j = 0 To myfile.Length - 1
                 Dim mybyte = Chr(myfile.ReadByte).ToString
                 If Not (mybyte.Equals(vbCrLf)) AndAlso Not (mybyte.Equals(vbCr)) AndAlso Not (mybyte.Equals(vbLf)) Then
                     myline += mybyte
                 Else
-                    If myline.Contains("Rechnungsnr. ") Then
-                        invoicenumber = myline.Remove(0, "Rechnungsnr. ".Length)
+                    Dim invoicenumberString = "Rechnungsnr. "
+                    If myline.Contains(invoicenumberString) Then
+                        invoicenumber = myline.Remove(0, invoicenumberString.Length)
                         Dim sampleinvoicenumber = "184183"
                         invoicenumber = invoicenumber.Remove(sampleinvoicenumber.Length, invoicenumber.Length - sampleinvoicenumber.Length)
+                        If invoicenumber.Length <> sampleinvoicenumber.Length And Not IsNothing(invoicenumber.Length) Then
+                            statusMessages.AppendText(Chr(13) + "WARNUNG: zu kurze Rechnungsnr. an Position " + i.ToString + "erkannt!")
+                        End If
                     End If
                     If myline.Contains("Amazon Order ") Then
                         amazonordernumber = myline.Remove(0, "Amazon Order ".Length)
@@ -64,7 +78,7 @@ Class MainWindow
                 End If
             Next
             If i = 0 Then
-                My.Computer.FileSystem.WriteAllText(outputFileName, "Rechnungsnummer" + ";" + "Amazon-Order-Nummer" + vbCrLf, True)
+                My.Computer.FileSystem.WriteAllText(outputFileName, "lfd. interne Nr." + ";" + "Rechnungsnummer" + ";" + "Amazon-Order-Nummer" + vbCrLf, True)
             End If
 
             If IsNothing(invoicenumber) Then
@@ -73,11 +87,14 @@ Class MainWindow
                 amazonOrdernumberWasZeroOnceOrMoreOften = True
                 amazonordernumber = 0
             End If
-            My.Computer.FileSystem.WriteAllText(outputFileName, invoicenumber.ToString + ";" + amazonordernumber.ToString + vbCrLf, True)
+            My.Computer.FileSystem.WriteAllText(outputFileName, i.ToString + ";" + invoicenumber.ToString + ";" + amazonordernumber.ToString + vbCrLf, True)
             Rename(newFilename, oldFilename)
             myfile.Close()
             My.Computer.FileSystem.DeleteFile(textFilename)
+            progress.Value = i
         Next
         statusMessages.AppendText(Chr(13) + "Fertig mit der Verarbeitung von " + numOfFilesSelected.ToString + " Dateien")
+        progress.Value = 0
+        progress.IsEnabled = False
     End Sub
 End Class
