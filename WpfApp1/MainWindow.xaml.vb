@@ -3,16 +3,19 @@ Imports Microsoft.Win32
 
 Class MainWindow
     Dim outputFileName As String
+    Dim amazonOutputPath As String
     Dim filenamesChoosen As String()
     Sub endProgramMenuItem_onClick() Handles endProgramMenuItem.Click
         End
     End Sub
     Sub aboutMenu_onClick() Handles aboutMenue.Click
-        MsgBox("PDF-Merkmale extrahieren" + Chr(10) + "entwickelt: Marc Bender, 2019", MsgBoxStyle.Information, "Über")
+        MsgBox("PDF-Merkmale extrahieren" + Chr(13) + "entwickelt von: Marc Bender, 2019", MsgBoxStyle.Information, "Über")
     End Sub
     Sub chooseOutputFile_onClick() Handles chooseOutputFile.Click
         Dim chooseOutputFileDialog = New SaveFileDialog
         chooseOutputFileDialog.Title = "Ausgabedatei wählen"
+        chooseOutputFileDialog.AddExtension = True
+        chooseOutputFileDialog.Filter = "CSV-Datei|*.csv"
         chooseOutputFileDialog.ShowDialog()
         If Not IsNothing(chooseOutputFileDialog.FileName) And chooseOutputFileDialog.FileName <> "" Then
             outputFileName = chooseOutputFileDialog.FileName
@@ -20,14 +23,23 @@ Class MainWindow
         End If
     End Sub
     Sub chooseFileMenuItem_onClick() Handles chooseFilesMenuItem.Click
-        MsgBox("Achtung!" + Chr(10) + Chr(13) + "Nur PDF Dateien wählen!" + Chr(10) + Chr(13) + "Nur Dateien in Ordnern ohne Leerzeichen!" + Chr(13) + Chr(10) + "Sonst stürzt das Programm ab!", MsgBoxStyle.Exclamation, "Bitte beachten!")
+        MsgBox("Achtung!" + Chr(13) + "Nur Dateien in Ordnern ohne Leerzeichen!" + Chr(13) + "Sonst stürzt das Programm ab!", MsgBoxStyle.Exclamation, "Bitte beachten!")
         Dim chooseFilesDialog = New OpenFileDialog
         chooseFilesDialog.Title = "Datei(-en) wählen"
         chooseFilesDialog.Multiselect = True
+        chooseFilesDialog.Filter = "PDF-Dateien|*.pdf"
         chooseFilesDialog.ShowDialog()
         filenamesChoosen = chooseFilesDialog.FileNames
         If filenamesChoosen.Length > 0 Then
             statusMessages.AppendText(Chr(13) + "Ausgewählt " + filenamesChoosen.Length.ToString + " Dateien")
+        End If
+    End Sub
+    Sub copyAmazonFilesMenuItem_onUncheck() Handles copyAmazonFilesMenuItem.Unchecked
+        statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden nicht kopiert!")
+    End Sub
+    Sub copyAmazonFilesMenueItem_onClick() Handles copyAmazonFilesMenuItem.Click
+        If copyAmazonFilesMenuItem.IsChecked = True Then
+            statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden kopiert!")
         End If
     End Sub
     Sub go_onClick() Handles go.Click
@@ -78,8 +90,14 @@ Class MainWindow
                         amazonordernumber = myline.Remove(0, "Amazon Order ".Length)
                         Dim sampleamazonordernumber = "302-6384101-1861149"
                         amazonordernumber = amazonordernumber.Remove(sampleamazonordernumber.Length, amazonordernumber.Length - sampleamazonordernumber.Length)
+                        If copyAmazonFilesMenuItem.IsChecked Then
+                            Dim info As New System.IO.DirectoryInfo(filenamesChoosen(i))
+                            Dim copydestination As String = info.Parent.FullName.ToString + "\Amazon-Rechnungen\"
+                            Dim filenameWithoutPath As String = filenamesChoosen(i).Remove(0, info.Parent.FullName.ToString.Length + 1)
+                            My.Computer.FileSystem.CopyFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                        End If
+                        myline = ""
                     End If
-                    myline = ""
                 End If
             Next
             If i = 0 Then

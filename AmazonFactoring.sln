@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfApp1", "WpfApp1\WpfApp1.vbproj", "{1553A7E9-559A-4569-946E-63DD8E5ED0D5}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AmazonFactoring", "WpfApp1\AmazonFactoring.vbproj", "{1553A7E9-559A-4569-946E-63DD8E5ED0D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
