@@ -37,9 +37,19 @@ Class MainWindow
     Sub copyAmazonFilesMenuItem_onUncheck() Handles copyAmazonFilesMenuItem.Unchecked
         statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden nicht kopiert!")
     End Sub
+    Sub moveAmazonFilesMenuItem_onUncheck() Handles moveAmazonFilesMenuItem.Unchecked
+        statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden nicht verschoben!")
+    End Sub
     Sub copyAmazonFilesMenueItem_onClick() Handles copyAmazonFilesMenuItem.Click
         If copyAmazonFilesMenuItem.IsChecked = True Then
             statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden kopiert!")
+            moveAmazonFilesMenuItem.IsChecked = False
+        End If
+    End Sub
+    Sub moveAmazonFilesMenueItem_onClick() Handles moveAmazonFilesMenuItem.Click
+        If moveAmazonFilesMenuItem.IsChecked = True Then
+            statusMessages.AppendText(Chr(13) + "Amazon Rechnungen werden verschoben!")
+            copyAmazonFilesMenuItem.IsChecked = False
         End If
     End Sub
     Sub go_onClick() Handles go.Click
@@ -90,11 +100,15 @@ Class MainWindow
                         amazonordernumber = myline.Remove(0, "Amazon Order ".Length)
                         Dim sampleamazonordernumber = "302-6384101-1861149"
                         amazonordernumber = amazonordernumber.Remove(sampleamazonordernumber.Length, amazonordernumber.Length - sampleamazonordernumber.Length)
-                        If copyAmazonFilesMenuItem.IsChecked Then
+                        If copyAmazonFilesMenuItem.IsChecked Or moveAmazonFilesMenuItem.IsChecked Then
                             Dim info As New System.IO.DirectoryInfo(filenamesChoosen(i))
                             Dim copydestination As String = info.Parent.FullName.ToString + "\Amazon-Rechnungen\"
                             Dim filenameWithoutPath As String = filenamesChoosen(i).Remove(0, info.Parent.FullName.ToString.Length + 1)
-                            My.Computer.FileSystem.CopyFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                            If copyAmazonFilesMenuItem.IsChecked Then
+                                My.Computer.FileSystem.CopyFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                            ElseIf moveAmazonFilesMenuItem.IsChecked Then
+                                My.Computer.FileSystem.MoveFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                            End If
                         End If
                         myline = ""
                     End If

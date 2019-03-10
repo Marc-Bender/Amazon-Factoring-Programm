@@ -12,6 +12,7 @@
                 <MenuItem x:Name="chooseFilesMenuItem" Header="Datei(-en) auswählen" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
                 <MenuItem x:Name="chooseOutputFile" Header="Ausgabedatei wählen" HorizontalAlignment="Left" Height="20" Width="266"/>
                 <MenuItem x:Name="copyAmazonFilesMenuItem" Header="Amazon Rechnungen kopieren?!" HorizontalAlignment="Left" Height="20" Width="288" IsCheckable="True"/>
+                <MenuItem x:Name="moveAmazonFilesMenuItem" Header="Amazon Rechnungen verschieben?!" HorizontalAlignment="Left" Height="20" Width="288" IsCheckable="True"/>
                 <MenuItem x:Name="go" Header="Los" HorizontalAlignment="Left" Height="20" Width="266"/>
                 <MenuItem x:Name="endProgramMenuItem" Header="Beenden" HorizontalAlignment="Left" Height="20" Width="266" Margin="0"/>
             </MenuItem>
