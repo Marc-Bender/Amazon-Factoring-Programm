@@ -100,16 +100,6 @@ Class MainWindow
                         amazonordernumber = myline.Remove(0, "Amazon Order ".Length)
                         Dim sampleamazonordernumber = "302-6384101-1861149"
                         amazonordernumber = amazonordernumber.Remove(sampleamazonordernumber.Length, amazonordernumber.Length - sampleamazonordernumber.Length)
-                        If copyAmazonFilesMenuItem.IsChecked Or moveAmazonFilesMenuItem.IsChecked Then
-                            Dim info As New System.IO.DirectoryInfo(filenamesChoosen(i))
-                            Dim copydestination As String = info.Parent.FullName.ToString + "\Amazon-Rechnungen\"
-                            Dim filenameWithoutPath As String = filenamesChoosen(i).Remove(0, info.Parent.FullName.ToString.Length + 1)
-                            If copyAmazonFilesMenuItem.IsChecked Then
-                                My.Computer.FileSystem.CopyFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
-                            ElseIf moveAmazonFilesMenuItem.IsChecked Then
-                                My.Computer.FileSystem.MoveFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
-                            End If
-                        End If
                         myline = ""
                     End If
                 End If
@@ -127,6 +117,18 @@ Class MainWindow
             My.Computer.FileSystem.WriteAllText(outputFileName, i.ToString + ";" + invoicenumber.ToString + ";" + amazonordernumber.ToString + vbCrLf, True)
             Rename(newFilename, oldFilename)
             myfile.Close()
+            If Not IsNothing(amazonordernumber.ToString) And Not amazonordernumber.ToString = "" Then
+                If copyAmazonFilesMenuItem.IsChecked Or moveAmazonFilesMenuItem.IsChecked Then
+                    Dim info As New System.IO.DirectoryInfo(filenamesChoosen(i))
+                    Dim copydestination As String = info.Parent.FullName.ToString + "\Amazon-Rechnungen\"
+                    Dim filenameWithoutPath As String = filenamesChoosen(i).Remove(0, info.Parent.FullName.ToString.Length + 1)
+                    If copyAmazonFilesMenuItem.IsChecked Then
+                        My.Computer.FileSystem.CopyFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                    ElseIf moveAmazonFilesMenuItem.IsChecked Then
+                        My.Computer.FileSystem.MoveFile(filenamesChoosen(i), copydestination + filenameWithoutPath)
+                    End If
+                End If
+            End If
             My.Computer.FileSystem.DeleteFile(textFilename)
             progress.Value = i
         Next
