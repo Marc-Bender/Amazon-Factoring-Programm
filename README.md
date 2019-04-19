@@ -1,4 +1,7 @@
 # Amazon-Factoring-program
+
+For the latest version see here: https://github.com/Marc-Bender/Amazon-Factoring-program/releases/latest
+
 Piece of individual code.
 
 It's used to go through a bunch of invoices (as PDF) from one of our customers (online-seller).
