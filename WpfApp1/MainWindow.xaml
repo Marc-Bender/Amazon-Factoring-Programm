@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:AmazonFactoringProgram"
         mc:Ignorable="d"
-        Title="PDF-Merkmale extrahieren" Height="158.855" Width="523.288">
+        Title="Amazon-Factoring-Programm" Height="158.855" Width="523.288">
     <Grid Margin="0" HorizontalAlignment="Left" Width="513">
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="80">
             <MenuItem x:Name="fileMenue" Header="Datei" Height="20" Width="40" HorizontalAlignment="Left">

@@ -9,7 +9,7 @@ Class MainWindow
         End
     End Sub
     Sub aboutMenu_onClick() Handles aboutMenue.Click
-        MsgBox("PDF-Merkmale extrahieren" + Chr(13) + "entwickelt von: Marc Bender, 2019", MsgBoxStyle.Information, "Über")
+        MsgBox("Amazon-Factoring-Programm" + Chr(13) + "entwickelt von: Marc Bender, 2019", MsgBoxStyle.Information, "Über")
     End Sub
     Sub chooseOutputFile_onClick() Handles chooseOutputFile.Click
         Dim chooseOutputFileDialog = New SaveFileDialog

@@ -11,13 +11,13 @@ Imports System.Windows
 
 ' Werte der Assemblyattribute überprüfen
 
-<Assembly: AssemblyTitle("WpfApp1")>
+<Assembly: AssemblyTitle("Amazon-Factoring-Programm")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("WpfApp1")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyProduct("Amazon-Factoring Programm")>
+<Assembly: AssemblyCopyright("Copyright ©  2019, Marc Bender")>
 <Assembly: AssemblyTrademark("")>
-<Assembly: ComVisible(false)>
+<Assembly: ComVisible(False)>
 
 'Um mit dem Erstellen lokalisierbarer Anwendungen zu beginnen, legen Sie
 '<UICulture>ImCodeVerwendeteKultur</UICulture> in der VBPROJ-Datei
@@ -55,5 +55,6 @@ Imports System.Windows
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1")>
+<Assembly: AssemblyFileVersion("1")>
+<Assembly: NeutralResourcesLanguage("de-DE")>
