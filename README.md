@@ -1,6 +1,6 @@
-# Amazon-Factoring-program
+# Amazon-Factoring-Programm
 
-For the latest version see here: https://github.com/Marc-Bender/Amazon-Factoring-program/releases/latest
+For the latest version see here: https://github.com/Marc-Bender/Amazon-Factoring-Programm/releases/latest
 
 Piece of individual code.
 
